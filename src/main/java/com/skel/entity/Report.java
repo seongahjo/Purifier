@@ -23,5 +23,6 @@ public class Report {
     String content;
 
     @ManyToOne
+    @JoinColumn(name = "useridx")  // JOIN된 컬럼의 이름설정
     User user;
 }

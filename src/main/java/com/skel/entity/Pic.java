@@ -19,8 +19,10 @@ public class Pic {
     String url;
 
     @ManyToOne
+    @JoinColumn(name = "useridx") // JOIN된 컬럼의 이름설정
     User user;
 
     @ManyToOne
+    @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
     App app;
 }

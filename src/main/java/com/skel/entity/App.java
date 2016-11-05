@@ -26,6 +26,7 @@ public class App {
     Set<User> users;
 
     @ManyToOne
+    @JoinColumn(name = "companyidx") // JOIN된 컬럼의 이름설정
     Company company;
 
     @OneToMany(mappedBy="user")

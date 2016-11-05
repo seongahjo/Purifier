@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by hootting on 2016. 10. 11..
  */
 public interface UserRepository extends JpaRepository<User,Long> {
+
+    User findById(String id);
 }

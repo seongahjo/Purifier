@@ -26,6 +26,7 @@ public class User {
     Integer countPicture;
 
     @ManyToOne
+    @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
     App app;
 
     @OneToMany(mappedBy="user")
@@ -34,5 +35,13 @@ public class User {
     @OneToMany(mappedBy="user")
     Set<Report> reports;
 
-
+    public User(){
+        this.countSlang=0;
+        this.countPicture=0;
+    }
+    public User(String userid){
+        this.id=userid;
+        this.countSlang=0;
+        this.countPicture=0;
+    }
 }
