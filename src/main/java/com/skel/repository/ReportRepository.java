@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by hootting on 2016. 10. 11..
  */
-public interface ReportRepository extends JpaRepository<Report,Long> {
+public interface ReportRepository extends JpaRepository<Report,Integer> {
 }

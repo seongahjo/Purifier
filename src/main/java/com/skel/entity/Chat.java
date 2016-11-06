@@ -1,5 +1,6 @@
 package com.skel.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,10 +21,12 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "useridx") // JOIN된 컬럼의 이름설정
+    @JsonBackReference(value="user-chat")
     User user;
 
     @ManyToOne
     @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
+    @JsonBackReference(value="app-chat")
     App app;
 
     public Chat(){}
@@ -32,4 +35,5 @@ public class Chat {
         this.user=u;
         this.app=a;
     }
+
 }

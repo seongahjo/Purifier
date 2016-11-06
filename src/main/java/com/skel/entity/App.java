@@ -1,8 +1,10 @@
 package com.skel.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,16 +25,20 @@ public class App {
     String type; // 어떤 종류의 앱인지, 게임?
 
     @OneToMany(mappedBy="app")
-    Set<User> users;
+    @JsonManagedReference(value="app-user")
+    List<User> users;
 
     @ManyToOne
     @JoinColumn(name = "companyidx") // JOIN된 컬럼의 이름설정
+    @JsonBackReference(value="company-app")
     Company company;
 
-    @OneToMany(mappedBy="user")
-    Set<Chat> chats;
+    @OneToMany(mappedBy="app")
+    @JsonManagedReference(value="app-chat")
+    List<Chat> chats;
 
-    @OneToMany(mappedBy = "user")
-    Set<Pic> pics;
+    @OneToMany(mappedBy = "app")
+    @JsonManagedReference(value="app-pic")
+    List<Pic> pics;
 
 }

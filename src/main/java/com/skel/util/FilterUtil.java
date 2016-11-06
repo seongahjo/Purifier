@@ -28,6 +28,8 @@ public class FilterUtil {
                 sb.append(content.substring(size, content.length() - 1));
             }
         }
+        if(sb.toString().equals(""))
+            return content;
         return sb.toString();
     }
 }

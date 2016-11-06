@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by hootting on 2016. 10. 11..
  */
-public interface SlangRepository extends JpaRepository<Slang,Long> {
+public interface SlangRepository extends JpaRepository<Slang,Integer> {
 }
