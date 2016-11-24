@@ -1,5 +1,7 @@
 package com.skel.controller;
 
+import com.skel.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +11,25 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class MainController {
+    @Autowired
+    AppRepository appRepository;
+
+    @Autowired
+    SlangRepository slangRepository;
+
+    @Autowired
+    PicRepository picRepository;
+
+    @Autowired
+    ChatRepository chatRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
+    ReportRepository reportRepository;
+
+
     @RequestMapping("/")
     public ModelAndView mainPage(){
         ModelAndView mv=new ModelAndView("login");
@@ -38,11 +59,42 @@ public class MainController {
         return mv;
     }
 
-    @RequestMapping("/register")
+    @RequestMapping("/list")
     public ModelAndView register(){
-        ModelAndView mv = new ModelAndView("detail");
+        ModelAndView mv = new ModelAndView("list");
         mv.addObject("name","seongah");
-        mv.addObject("mode","detail");
+        mv.addObject("apps",appRepository.getOne(1));
+        return mv;
+    }
+    @RequestMapping("/slangs")
+    public ModelAndView slang(){
+        ModelAndView mv = new ModelAndView("list");
+        mv.addObject("name","admin");
+        mv.addObject("slangs",slangRepository.findAll());
+        return mv;
+    }
+
+    @RequestMapping("/pics")
+    public ModelAndView pics(){
+        ModelAndView mv = new ModelAndView("list");
+        mv.addObject("name","admin");
+        mv.addObject("pics",picRepository.findAll());
+        return mv;
+    }
+
+    @RequestMapping("/reports")
+    public ModelAndView reports(){
+        ModelAndView mv = new ModelAndView("list");
+        mv.addObject("name","admin");
+        mv.addObject("reports",reportRepository.findAll());
+        return mv;
+    }
+
+    @RequestMapping("/logs")
+    public ModelAndView logs(){
+        ModelAndView mv = new ModelAndView("list");
+        mv.addObject("name","admin");
+        mv.addObject("logs",chatRepository.findAll());
         return mv;
     }
 }

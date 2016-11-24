@@ -53,13 +53,18 @@
                 </div>
             </div>
             <!-- content -->
-            <div class="row" th:replace="fragment/main :: ${list}">
+            <div class="row" th:include="fragment/main :: list">
             </div>
 
         </section>
 
         <div class="clearfix"></div>
     </div>
+    <footer class="main-footer no-print" th:replace="fragment/footer"/>
+
+
+    <div class="control-sidebar-bg"></div>
+
 </div>
 <!-- ./wrapper -->
 

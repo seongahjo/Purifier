@@ -120,19 +120,23 @@
 <div th:fragment="detail">
     <div class="row">
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
+                 height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
             <h4>최다 비속어 사용자</h4>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
+                 height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
             <h4>최다 부적절한 사진 업로더</h4>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
+                 height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
             <h4>비속어 사용 전체 회수</h4>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
+                 height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
             <h4>부적절한 사진 업로드 회수</h4>
         </div>
     </div>
@@ -164,9 +168,96 @@
     </div>
 </div>
 
-
 <div th:fragment="list">
 
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <div th:if="${apps!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>company</th>
+                    <th>app</th>
+                    <th>type</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tr th:each="app : ${apps}">
+                    <td th:text="${app.appIdx}"></td>
+                    <td th:text="${app.name}"></td>
+                    <td th:text="${app.company.name}"></td>
+                    <td th:text="${app.type}"></td>
+                    <td>
+                        <button class="btn-primary">서비스 연결</button>
+                    </td>
+                </tr>
+        </div>
+                <div th:if="${reports!=null}">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>content</th>
+                        <th>type</th>
+                        <th>user</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="report : ${reports}">
+                        <td th:text="${report.reportIdx}"></td>
+                        <td th:text="${report.content}"></td>
+                        <td th:text="${report.type}"></td>
+                        <td th:text="${report.user.id}"></td>
+                    </tr>
+                </div>
+
+                <div th:if="${slangs!=null}">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>word</th>
+                        <th>count</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="slang : ${slangs}">
+                        <td th:text="${slang.slangIdx}"></td>
+                        <td th:text="${slang.word}"></td>
+                        <td th:text="${slang.count}"></td>
+                    </tr>
+                </div>
+                <div th:if="${pics!=null}">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>url</th>
+                        <th>app</th>
+                        <th>user</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="pic : ${pics}">
+                        <td th:text="${pic.picIdx}"></td>
+                        <td th:text="${pic.url}"></td>
+                        <td th:text="${pic.app.name}"></td>
+                        <td th:text="${pic.user.id}"></td>
+                    </tr>
+                </div>
+
+                <div th:if="${logs!=null}">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>content</th>
+                        <th>app</th>
+                        <th>user</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="log : ${logs}">
+                        <td th:text="${log.chatIdx}"></td>
+                        <td th:text="${log.content}"></td>
+                        <td th:text="${log.app.name}"></td>
+                        <td th:text="${log.user.id}"></td>
+                    </tr>
+                </div>
+            </table>
+        </div>
 
 </div>
 </body>
