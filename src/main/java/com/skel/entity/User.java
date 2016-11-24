@@ -12,6 +12,9 @@ import java.util.Set;
  */
 @Data
 @Entity
+// postgresql user테이블 생성
+// postgresql에서 "user"이여야함
+@Table(name="\"user\"")
 public class User {
     @Id
     @GeneratedValue
