@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="adminmenu">
+    <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="treeview">
+            <a th:href="@{'/main'}">
+                <i class="fa fa-file-text"></i> <span>서비스 현황</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-plus"></i> <span>서비스 신청목록</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-minus"></i> <span>서비스 취소목록</span>
+            </a>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-filter"></i> <span>레포트 목록</span>
+            </a>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-bullhorn"></i> <span>비속어 목록</span>
+            </a>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-picture-o"></i> <span>부적절한 사진 목록</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-history"></i> <span>로그</span>
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+<div th:fragment="usermenu">
+    <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="treeview">
+            <a th:href="@{'/main'}">
+                <i class="fa fa-file-text"></i> <span>서비스 현황</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a th:href="@{'/register'}">
+                <i class="fa fa-plus"></i> <span>서비스 신청</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a th:href="@{'/clear'}">
+                <i class="fa fa-minus"></i> <span>서비스 취소</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

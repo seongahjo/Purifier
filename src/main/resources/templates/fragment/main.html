@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="user">
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>App</th>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>Total Count</th>
+                    <th>Filter Count</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Aapp</td>
+                    <td>Mobile App</td>
+                    <td>2016.10.15</td>
+                    <td>10</td>
+                    <td>5</td>
+                    <td>
+                        <button class="btn btn-primary">자세히 보기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Bapp</td>
+                    <td>Mobile App</td>
+                    <td>2016.10.15</td>
+                    <td>10</td>
+                    <td>5</td>
+                    <td>
+                        <button class="btn btn-primary">자세히 보기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>CCapp</td>
+                    <td>Mobile App</td>
+                    <td>2016.10.15</td>
+                    <td>10</td>
+                    <td>5</td>
+                    <td>
+                        <button class="btn btn-primary">자세히 보기</button>
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+<div th:fragment="admin">
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Company</th>
+                    <th>App</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>ACompany</td>
+                    <td>Aapp</td>
+                    <td>Mobile App</td>
+                    <td>El snort testosterone trophy driving gloves handsome</td>
+                    <td>
+                        <button class="btn-primary">서비스 연결</button>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>BCompany</td>
+                    <td>Bapp</td>
+                    <td>Mobile App</td>
+                    <td>Wes Anderson umami biodiesel</td>
+                    <td>
+                        <button class="btn-primary">서비스 연결</button>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>CCompany</td>
+                    <td>CCapp</td>
+                    <td>Mobile App</td>
+                    <td>Terry Richardson helvetica tousled street art master</td>
+
+                    <td>
+                        <button class="btn-primary">서비스 연결</button>
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+
+</div>
+<div th:fragment="detail">
+    <div class="row">
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <h4>최다 비속어 사용자</h4>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <h4>최다 부적절한 사진 업로더</h4>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <h4>비속어 사용 전체 회수</h4>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"></img>
+            <h4>부적절한 사진 업로드 회수</h4>
+        </div>
+    </div>
+
+    <h2 class="sub-header">LOG</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>content</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1,001</td>
+                <td>Lorem</td>
+            </tr>
+            <tr>
+                <td>1,002</td>
+                <td>amet</td>
+            </tr>
+            <tr>
+                <td>1,003</td>
+                <td>Integer</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div th:fragment="list">
+
+
+</div>
+</body>
+</html>

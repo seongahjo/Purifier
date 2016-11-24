@@ -56,12 +56,13 @@ public class FilteringController {
         u.setCountSlang(u.getCountSlang()+1); // count회수 추가
         log.info("Filter Input : " + chat.toString());
         String content = chat.getContent();
-        log.info("Filtering start");
-        content = FilterUtil.filterSlang(content);
-
         newchat = new Chat(content, u, app);
         userRepository.saveAndFlush(u);
         chatRepository.saveAndFlush(newchat);
+        log.info("Filtering start");
+        content = FilterUtil.filterSlang(content);
+        newchat.setContent(content);
+
         //Filter된 내용을 저장? Filter 전 내용을 저장?*/
         return ResponseEntity.ok(newchat);
     }
