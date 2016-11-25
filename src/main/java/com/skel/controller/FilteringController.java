@@ -54,11 +54,14 @@ public class FilteringController {
             u.setApp(app);
         }
         u.setCountSlang(u.getCountSlang()+1); // count회수 추가
+        app.setTotalcount(app.getTotalcount()+1);
+        app.setFiltercount(app.getFiltercount()+1);
         log.info("Filter Input : " + chat.toString());
         String content = chat.getContent();
         newchat = new Chat(content, u, app);
         userRepository.saveAndFlush(u);
         chatRepository.saveAndFlush(newchat);
+        appRepository.saveAndFlush(app);
         log.info("Filtering start");
         content = FilterUtil.filterSlang(content);
         newchat.setContent(content);

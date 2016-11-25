@@ -5,7 +5,7 @@
 <body>
 <div th:fragment="header">
 <section class="content-header" >
-    <h1 th:text="${company!=null} ? ${company} : 'admin' ">
+    <h1 th:text="${company!=null} ? ${company.name} : 'admin' ">
 
     </h1>
     <ol class="breadcrumb">

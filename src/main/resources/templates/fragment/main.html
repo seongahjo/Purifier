@@ -10,7 +10,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Service</th>
+                    <th>#</th>
                     <th>App</th>
                     <th>Type</th>
                     <th>Start Date</th>
@@ -20,103 +20,62 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Aapp</td>
-                    <td>Mobile App</td>
-                    <td>2016.10.15</td>
-                    <td>10</td>
-                    <td>5</td>
-                    <td>
-                        <button class="btn btn-primary">자세히 보기</button>
+                <tr th:each="app : ${apps}">
+                    <td th:text="${app.appIdx}"></td>
+                    <td th:text="${app.name}"></td>
+                    <td th:text="${app.type}"></td>
+                    <td th:text="${app.createdat}"></td>
+                    <td th:text="${app.isregister ? app.totalcount : '-'}"></td>
+                    <td th:text="${app.isregister ? app.filtercount : '-'}"></td>
+                    <td th:if="${!app.isregister}">
+                        <span class="label label-primary">서비스 연결 대기중</span>
+                    </td>
+                    <td th:if="${app.isregister}">
+                        <button class="btn btn-info">자세히 보기</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Bapp</td>
-                    <td>Mobile App</td>
-                    <td>2016.10.15</td>
-                    <td>10</td>
-                    <td>5</td>
-                    <td>
-                        <button class="btn btn-primary">자세히 보기</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>CCapp</td>
-                    <td>Mobile App</td>
-                    <td>2016.10.15</td>
-                    <td>10</td>
-                    <td>5</td>
-                    <td>
-                        <button class="btn btn-primary">자세히 보기</button>
-                    </td>
-
-                </tr>
-
                 </tbody>
             </table>
         </div>
         <!-- /.col -->
     </div>
 </div>
-<div th:fragment="admin">
+
+<div th:fragment="close">
     <div class="row">
         <div class="col-xs-12 table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Service</th>
-                    <th>Company</th>
+                    <th>#</th>
                     <th>App</th>
                     <th>Type</th>
+                    <th>Start Date</th>
+                    <th>Total Count</th>
+                    <th>Filter Count</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>ACompany</td>
-                    <td>Aapp</td>
-                    <td>Mobile App</td>
-                    <td>El snort testosterone trophy driving gloves handsome</td>
-                    <td>
-                        <button class="btn-primary">서비스 연결</button>
+                <tr th:each="app : ${apps}">
+                    <td th:text="${app.appIdx}"></td>
+                    <td th:text="${app.name}"></td>
+                    <td th:text="${app.type}"></td>
+                    <td th:text="${app.createdat}"></td>
+                    <td th:text="${app.isregister ? app.totalcount : '-'}"></td>
+                    <td th:text="${app.isregister ? app.filtercount : '-'}"></td>
+                    <td th:if="${app.isregister}">
+                        <button class="btn btn-danger">서비스 취소</button>
                     </td>
-
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>BCompany</td>
-                    <td>Bapp</td>
-                    <td>Mobile App</td>
-                    <td>Wes Anderson umami biodiesel</td>
-                    <td>
-                        <button class="btn-primary">서비스 연결</button>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>CCompany</td>
-                    <td>CCapp</td>
-                    <td>Mobile App</td>
-                    <td>Terry Richardson helvetica tousled street art master</td>
-
-                    <td>
-                        <button class="btn-primary">서비스 연결</button>
-                    </td>
-
-                </tr>
-
                 </tbody>
             </table>
         </div>
         <!-- /.col -->
     </div>
-
 </div>
+
+
 <div th:fragment="detail">
     <div class="row">
         <div class="col-xs-6 col-sm-3 placeholder">
@@ -168,96 +127,145 @@
     </div>
 </div>
 
+
+<!-- list -->
 <div th:fragment="list">
 
-        <div class="col-xs-12 table-responsive">
-            <table class="table table-striped">
-                <div th:if="${apps!=null}">
+    <div class="col-xs-12 table-responsive">
+        <table class="table table-striped">
+            <div th:if="${apps!=null}">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>company</th>
-                    <th>app</th>
-                    <th>type</th>
+                    <th>Company</th>
+                    <th>App</th>
+                    <th>Type</th>
+                    <th>Start Date</th>
                     <th></th>
                 </tr>
                 </thead>
+                <tbody>
                 <tr th:each="app : ${apps}">
                     <td th:text="${app.appIdx}"></td>
-                    <td th:text="${app.name}"></td>
                     <td th:text="${app.company.name}"></td>
+                    <td th:text="${app.name}"></td>
                     <td th:text="${app.type}"></td>
-                    <td>
-                        <button class="btn-primary">서비스 연결</button>
+                    <td th:text="${app.createdat}"></td>
+                    <td th:if="${!app.isregister}">
+                        <button class="btn btn-primary">서비스 연결</button>
+                    </td>
+                    <td th:if="${app.isregister}">
+                        <button class="btn btn-danger">서비스 연결해지</button>
                     </td>
                 </tr>
-        </div>
-                <div th:if="${reports!=null}">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>content</th>
-                        <th>type</th>
-                        <th>user</th>
-                    </tr>
-                    </thead>
-                    <tr th:each="report : ${reports}">
-                        <td th:text="${report.reportIdx}"></td>
-                        <td th:text="${report.content}"></td>
-                        <td th:text="${report.type}"></td>
-                        <td th:text="${report.user.id}"></td>
-                    </tr>
-                </div>
+                </tbody>
+            </div>
 
-                <div th:if="${slangs!=null}">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>word</th>
-                        <th>count</th>
-                    </tr>
-                    </thead>
-                    <tr th:each="slang : ${slangs}">
-                        <td th:text="${slang.slangIdx}"></td>
-                        <td th:text="${slang.word}"></td>
-                        <td th:text="${slang.count}"></td>
-                    </tr>
-                </div>
-                <div th:if="${pics!=null}">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>url</th>
-                        <th>app</th>
-                        <th>user</th>
-                    </tr>
-                    </thead>
-                    <tr th:each="pic : ${pics}">
-                        <td th:text="${pic.picIdx}"></td>
-                        <td th:text="${pic.url}"></td>
-                        <td th:text="${pic.app.name}"></td>
-                        <td th:text="${pic.user.id}"></td>
-                    </tr>
-                </div>
+            <div th:if="${reports!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>content</th>
+                    <th>type</th>
+                    <th>user</th>
+                </tr>
+                </thead>
+                <tr th:each="report : ${reports}">
+                    <td th:text="${report.reportIdx}"></td>
+                    <td th:text="${report.content}"></td>
+                    <td th:text="${report.type}"></td>
+                    <td th:text="${report.user.id}"></td>
+                </tr>
+            </div>
 
-                <div th:if="${logs!=null}">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>content</th>
-                        <th>app</th>
-                        <th>user</th>
-                    </tr>
-                    </thead>
-                    <tr th:each="log : ${logs}">
-                        <td th:text="${log.chatIdx}"></td>
-                        <td th:text="${log.content}"></td>
-                        <td th:text="${log.app.name}"></td>
-                        <td th:text="${log.user.id}"></td>
-                    </tr>
-                </div>
-            </table>
+            <div th:if="${slangs!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>word</th>
+                    <th>count</th>
+                </tr>
+                </thead>
+                <tr th:each="slang : ${slangs}">
+                    <td th:text="${slang.slangIdx}"></td>
+                    <td th:text="${slang.word}"></td>
+                    <td th:text="${slang.count}"></td>
+                </tr>
+            </div>
+            <div th:if="${pics!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>url</th>
+                    <th>app</th>
+                    <th>user</th>
+                </tr>
+                </thead>
+                <tr th:each="pic : ${pics}">
+                    <td th:text="${pic.picIdx}"></td>
+                    <td th:text="${pic.url}"></td>
+                    <td th:text="${pic.app.name}"></td>
+                    <td th:text="${pic.user.id}"></td>
+                </tr>
+            </div>
+
+            <div th:if="${logs!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>content</th>
+                    <th>app</th>
+                    <th>user</th>
+                </tr>
+                </thead>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.chatIdx}"></td>
+                    <td th:text="${log.content}"></td>
+                    <td th:text="${log.app.name}"></td>
+                    <td th:text="${log.user.id}"></td>
+                </tr>
+            </div>
+        </table>
+    </div>
+</div>
+<!-- list end -->
+
+<div th:fragment="register">
+    <div >
+        <div class="register-logo">
+            <a href=""><b>Regi</b>ster</a>
         </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new app</p>
+
+            <form action=" " method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Name"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" placeholder="Type"/>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="예상 유저수"/>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+            <a href="login.html" class="text-center">I already have a membership</a>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
 
 </div>
 </body>

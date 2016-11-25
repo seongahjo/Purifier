@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +24,32 @@ public class App {
 
     @Column(name="type")
     String type; // 어떤 종류의 앱인지, 게임?
+
+    @Column(name="totalCount")
+    Integer totalcount=0;
+
+    @Column(name="filterCount")
+    Integer filtercount=0;
+
+    @Column(name="isregister")
+    Boolean isregister=false;
+
+    @Column(name="createdat")
+    private Date createdat;
+
+    @Column(name="updateat")
+    private Date updatedat;
+
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     @OneToMany(mappedBy="app")
     @JsonManagedReference(value="app-user")

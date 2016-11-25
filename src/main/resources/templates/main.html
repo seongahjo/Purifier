@@ -51,7 +51,7 @@
                 </div>
             </div>
             <!-- content -->
-            <div class="row" th:replace="fragment/main :: ${name=='admin'} ? 'admin' : 'user'">
+            <div class="row" th:replace="fragment/main :: ${mode}">
             </div>
 
         </section>
