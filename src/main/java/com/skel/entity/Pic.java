@@ -28,4 +28,8 @@ public class Pic {
     @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
     @JsonBackReference(value="app-pic")
     App app;
+
+    public Pic(){url=""; user=null; app=null;}
+    public Pic(String url, User u, App a){this.url=url; this.user=u; this.app=a;}
+
 }

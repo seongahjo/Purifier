@@ -76,7 +76,6 @@ public class MainController {
         return mv;
     }
 
-
     @RequestMapping("/register")
     public ModelAndView register(HttpSession session) {
         Company company = (Company) session.getAttribute("user");

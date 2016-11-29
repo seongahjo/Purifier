@@ -1,21 +1,17 @@
 package com.skel.util;
 
+import com.skel.entity.Pic;
 import com.skel.entity.Slang;
+import com.skel.repository.PicRepository;
 import com.skel.repository.SlangRepository;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.DMatch;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfDMatch;
-import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.*;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -26,6 +22,7 @@ import java.util.List;
 public class FilterUtil {
 
     static SlangRepository slangRepository;
+    static PicRepository picRepository;
 
 
     @Autowired(required = true)
@@ -33,33 +30,44 @@ public class FilterUtil {
         FilterUtil.slangRepository = slangRepository;
     }
 
-    public static String filterSlang(String content){
+    @Autowired(required = true)
+    public void setPicRepository(PicRepository picRepository) {
+        FilterUtil.picRepository = picRepository;
+    }
+
+    public static String filterSlang(String content) {
         List<Slang> slangs = slangRepository.findAll();
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (Slang s : slangs) {
             if (content.contains(s.getWord())) {
                 int size = content.indexOf(s.getWord());
                 sb.append(content.substring(0, size));
-                for(int i=0; i<s.getWord().length();i++)
-                sb.append("*");
-                sb.append(content.substring(size+s.getWord().length(), content.length() - 1));
+                for (int i = 0; i < s.getWord().length(); i++)
+                    sb.append("*");
+                sb.append(content.substring(size + s.getWord().length(), content.length() - 1));
             }
         }
-        if(sb.toString().equals(""))
+        if (sb.toString().equals(""))
             return content;
         return sb.toString();
     }
 
-    public static boolean filterPic(String filename1, String filename2){
+    public static boolean filterPicture(String filename) {
+        List<Pic> pics = picRepository.findAll();
+        return pics.stream().anyMatch(p -> filterPic(filename, p.getUrl()));
+    }
+
+
+    private static boolean filterPic(String filename1, String filename2) {
         int ret;
         ret = compareFeature(filename1, filename2);
-        if(ret > 0)
+        if (ret > 0)
             return true;
         else
             return false;
     }
 
-    public static int compareFeature(String filename1, String filename2){
+    private static int compareFeature(String filename1, String filename2) {
         int retVal = 0;
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -98,15 +106,15 @@ public class FilterUtil {
 
         MatOfDMatch matches = new MatOfDMatch();
 
-        if(descriptors2.cols() == descriptors1.cols()) {
+        if (descriptors2.cols() == descriptors1.cols()) {
             matcher.match(descriptors1, descriptors2, matches);
 
             DMatch[] match = matches.toArray();
             double max_dist = 0;
             double min_dist = 100;
 
-            for(int i = 0; i < descriptors1.rows(); i++) {
-                if(match[i].distance <= 10){
+            for (int i = 0; i < descriptors1.rows(); i++) {
+                if (match[i].distance <= 10) {
                     retVal++;
                 }
             }
