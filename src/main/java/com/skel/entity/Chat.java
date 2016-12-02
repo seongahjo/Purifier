@@ -19,6 +19,9 @@ public class Chat {
     @Column(name="content")
     String content;
 
+    @Column(name="isfilter")
+    Boolean isfilter=false;
+
     @ManyToOne
     @JoinColumn(name = "useridx") // JOIN된 컬럼의 이름설정
     @JsonBackReference(value="user-chat")
@@ -29,11 +32,14 @@ public class Chat {
     @JsonBackReference(value="app-chat")
     App app;
 
-    public Chat(){}
+    public Chat(){
+        this.isfilter=false;
+    }
     public Chat(String content,User u,App a){
         this.content=content;
         this.user=u;
         this.app=a;
+        this.isfilter=false;
     }
 
 }

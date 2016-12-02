@@ -13,6 +13,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -21,9 +22,11 @@ import java.util.List;
 @Log
 public class FilterUtil {
 
+
     static SlangRepository slangRepository;
     static PicRepository picRepository;
 
+    public static final String path = "/Users/hootting/test/Purifier";
 
     @Autowired(required = true)
     public void setSlangRepository(SlangRepository slangRepository) {
@@ -69,9 +72,6 @@ public class FilterUtil {
 
     private static int compareFeature(String filename1, String filename2) {
         int retVal = 0;
-
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
         Mat imgO1 = Imgcodecs.imread(filename1, Imgcodecs.CV_LOAD_IMAGE_COLOR);
         Mat imgO2 = Imgcodecs.imread(filename2, Imgcodecs.CV_LOAD_IMAGE_COLOR);
 
