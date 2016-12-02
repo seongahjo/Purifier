@@ -24,4 +24,13 @@ public class Slang {
     @Column(name="count")
     Integer count;
 
+    public Slang(){
+        word="";
+        count=0;
+    }
+    public Slang(String word){
+        this.count=0;
+        this.word=word;
+    }
+
 }
