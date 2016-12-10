@@ -1,7 +1,9 @@
 package com.skel.util;
 
+import com.skel.entity.Badpic;
 import com.skel.entity.Pic;
 import com.skel.entity.Slang;
+import com.skel.repository.BadpicRepository;
 import com.skel.repository.PicRepository;
 import com.skel.repository.SlangRepository;
 import lombok.extern.java.Log;
@@ -25,8 +27,7 @@ public class FilterUtil {
 
 
     static SlangRepository slangRepository;
-    static PicRepository picRepository;
-
+    static BadpicRepository badpicRepository;
     public static final String path = "/Users/hootting/test/Purifier";
 
     @Autowired(required = true)
@@ -35,8 +36,8 @@ public class FilterUtil {
     }
 
     @Autowired(required = true)
-    public void setPicRepository(PicRepository picRepository) {
-        FilterUtil.picRepository = picRepository;
+    public void setBadpicRepository(BadpicRepository badpicRepository) {
+        FilterUtil.badpicRepository = badpicRepository;
     }
 
     public static String getRandomString() {
@@ -48,19 +49,12 @@ public class FilterUtil {
         StringBuilder sb = new StringBuilder();
         for (Slang s : slangs) {
             while (content.contains(s.getWord())) {
-                //int size = content.indexOf(s.getWord());
-                //sb.append(content.substring(0, size));
                 for(int i=0; i<s.getWord().length();i++)
                     sb.append("*");
                 content=content.replace(s.getWord(),sb.toString());
                 sb.delete(0,sb.length());
-               // for (int i = 0; i < s.getWord().length(); i++)
-                //    sb.append("*");
-               // sb.append(content.substring(size + s.getWord().length(), content.length() - 1));
-            }
+              }
         }
-       /* if (sb.toString().equals(""))
-            return content;*/
         return content;
     }
 
@@ -68,6 +62,7 @@ public class FilterUtil {
        // System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         //List<Pic> pics = picRepository.findAll();
         //return pics.stream().anyMatch(p -> filterPic(filename, p.getUrl()));
+        List<Badpic> badpics=badpicRepository.findAll();
         return true;
     }
 

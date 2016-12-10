@@ -37,6 +37,9 @@ public class MainController {
     @Autowired
     ReportRepository reportRepository;
 
+    @Autowired
+    BadpicRepository badpicRepository;
+
 
     @Autowired
     UserRepository userRepository;
@@ -128,7 +131,7 @@ public class MainController {
     @RequestMapping("/pics")
     public ModelAndView pics() {
         ModelAndView mv = new ModelAndView("admin");
-        mv.addObject("pics", picRepository.findAll());
+        mv.addObject("badpics", badpicRepository.findAll());
         return mv;
     }
 

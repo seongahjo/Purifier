@@ -219,20 +219,16 @@
                     <td th:text="${slang.count}"></td>
                 </tr>
             </div>
-            <div th:if="${pics!=null}">
+            <div th:if="${badpics!=null}">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>url</th>
-                    <th>app</th>
-                    <th>user</th>
                 </tr>
                 </thead>
-                <tr th:each="pic : ${pics}">
-                    <td th:text="${pic.picIdx}"></td>
-                    <td th:text="${pic.url}"></td>
-                    <td th:text="${pic.app.name}"></td>
-                    <td th:text="${pic.user.id}"></td>
+                <tr th:each="badpic : ${badpics}">
+                    <td th:text="${badpic.picIdx}"></td>
+                    <td th:text="${badpic.url}"></td>
                 </tr>
             </div>
 
@@ -297,5 +293,47 @@
     <!-- /.register-box -->
 
 </div>
+
+<div th:fragment="companyRegister">
+    <div >
+        <div class="register-logo">
+            <a href=""><b>Regi</b>ster</a>
+        </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new app</p>
+
+            <form  id="registerForm" action="" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Name"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" id="type" name="type" class="form-control" placeholder="Type"/>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="예상 유저수"/>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary btn-block btn-flat"
+                                th:onclick="|register()|" >Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+            <a href="login.html" class="text-center">I already have a membership</a>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+
+</div>
+
+
 </body>
 </html>
