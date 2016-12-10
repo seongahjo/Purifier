@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by hootting on 2016. 11. 5..
@@ -36,6 +37,10 @@ public class FilterUtil {
     @Autowired(required = true)
     public void setPicRepository(PicRepository picRepository) {
         FilterUtil.picRepository = picRepository;
+    }
+
+    public static String getRandomString() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     public static String filterSlang(String content) {
