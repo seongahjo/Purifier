@@ -4,7 +4,6 @@
 
 function updateapp(appidx,check) {
     var jsontest={"isregister" : check};
-    alert(JSON.stringify(jsontest))
     $.ajax({
         url: 'http://localhost:8080/api/apps/' + appidx,
         method: 'PATCH',
@@ -17,3 +16,5 @@ function updateapp(appidx,check) {
     })
 
 }
+
+

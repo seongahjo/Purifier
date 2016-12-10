@@ -27,10 +27,13 @@
                     <td th:text="${app.createdat}"></td>
                     <td th:text="${app.isregister ? app.totalcount : '-'}"></td>
                     <td th:text="${app.isregister ? app.filtercount : '-'}"></td>
-                    <td th:if="${!app.isregister}">
+                    <td th:if="${!(app.isregister or app.isrequestclose)}">
                         <span class="label label-primary">서비스 연결 대기중</span>
                     </td>
-                    <td th:if="${app.isregister}">
+                    <td th:if="${app.isrequestclose}">
+                        <span class="label label-danger">서비스 취소 대기중</span>
+                    </td>
+                    <td th:if="${app.isregister and !app.isrequestclose}">
                         <a th:href="@{|detail/${app.appIdx}|}" ><button class="btn btn-info">자세히 보기</button></a>
                     </td>
                 </tr>
@@ -64,8 +67,8 @@
                     <td th:text="${app.createdat}"></td>
                     <td th:text="${app.isregister ? app.totalcount : '-'}"></td>
                     <td th:text="${app.isregister ? app.filtercount : '-'}"></td>
-                    <td th:if="${app.isregister}">
-                        <button class="btn btn-danger">서비스 취소</button>
+                    <td th:if="${app.isregister and !app.isrequestclose}">
+                        <button class="btn btn-danger" th:onclick="|updateapp('${app.appIdx}')|">서비스 취소</button>
                     </td>
                 </tr>
                 </tbody>
@@ -78,26 +81,56 @@
 
 <div th:fragment="detail">
     <div class="row">
+
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail" th:text="${slangUser!= null ? slangUser.id : 'no' }"></img>
-            <h4>최다 비속어 사용자</h4>
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">최다 비속어 사용자</span>
+                    <span class="info-box-number" th:text="${slangUser!=null ? slangUser.id : 'no' }"></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail" th:text="${pictureUser!=null ? pictureUser.id : 'no'}"></img>
-            <h4>최다 부적절한 사진 업로더</h4>
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">최다 부적절한 사진 업로더</span>
+                    <span class="info-box-number" th:text="${pictureUser!=null ? pictureUser.id : 'no'}"></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail" th:text="${logs.size()}"></img>
-            <h4>비속어 사용 전체 회수</h4>
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">비속어 사용 전체 회수</span>
+                    <span class="info-box-number" th:text="${logs.size()}"></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200"
-                 height="200" class="img-responsive" alt="Generic placeholder thumbnail" th:text="${app.filtercount-logs.size()}"></img>
-            <h4>부적절한 사진 업로드 회수</h4>
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">부적절한 사진 업로드 회수</span>
+                    <span class="info-box-number" th:text="${app.filtercount-logs.size()}"></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
         </div>
+
     </div>
 
     <h2 class="sub-header">LOG</h2>
@@ -233,13 +266,14 @@
         <div class="register-box-body">
             <p class="login-box-msg">Register a new app</p>
 
-            <form action=" " method="post">
+            <form  id="registerForm" action="" method="post">
+                <input type="hidden" id="companyIdx" name="company.companyidx"  th:value="${company.companyIdx}"/>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Name"/>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Name"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Type"/>
+                    <input type="text" id="type" name="type" class="form-control" placeholder="Type"/>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
@@ -249,7 +283,8 @@
                 <div class="row">
                     <!-- /.col -->
                     <div class="col-xs-12">
-                        <button type="button" class="btn btn-primary btn-block btn-flat">Register</button>
+                        <button type="button" class="btn btn-primary btn-block btn-flat"
+                                th:onclick="|register()|" >Register</button>
                     </div>
                     <!-- /.col -->
                 </div>

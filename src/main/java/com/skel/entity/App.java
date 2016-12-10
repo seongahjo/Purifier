@@ -34,6 +34,10 @@ public class App {
     @Column(name="isregister")
     Boolean isregister=false;
 
+    @Column(name="isrequestclose")
+    Boolean isrequestclose=false;
+
+
     @Column(name="createdat")
     private Date createdat;
 
@@ -57,7 +61,7 @@ public class App {
 
     @ManyToOne
     @JoinColumn(name = "companyidx") // JOIN된 컬럼의 이름설정
-    @JsonIgnore
+    //@JsonIgnore
     Company company;
 
     @OneToMany(mappedBy="app")

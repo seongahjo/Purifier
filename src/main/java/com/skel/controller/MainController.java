@@ -96,9 +96,11 @@ public class MainController {
         Company company = (Company) session.getAttribute("user");
         if (company == null)
             return new ModelAndView("redirect:/");
+
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("mode", "register");
         mv.addObject("company", company);
+
         return mv;
     }
 
@@ -107,9 +109,11 @@ public class MainController {
         Company company = (Company) session.getAttribute("user");
         if (company == null)
             return new ModelAndView("redirect:/");
+        List<App> apps = appRepository.findByCompany(company);
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("mode", "close");
         mv.addObject("company", company);
+        mv.addObject("apps", apps);
         return mv;
     }
 
@@ -152,7 +156,7 @@ public class MainController {
     @RequestMapping("/services/quit")
     public ModelAndView quits() {
         ModelAndView mv = new ModelAndView("admin");
-        mv.addObject("apps", appRepository.findByIsregister(true));
+        mv.addObject("apps", appRepository.findByIsrequestclose(true));
         return mv;
     }
 

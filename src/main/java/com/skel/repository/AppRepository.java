@@ -13,4 +13,5 @@ import java.util.List;
 public interface AppRepository extends JpaRepository<App,Integer> {
     List<App> findByCompany(Company company);
     List<App> findByIsregister(Boolean isregister);
+    List<App> findByIsrequestclose(Boolean isrequestclose);
 }
