@@ -133,9 +133,9 @@ public class FilteringController {
                 // 임시 파일 업로드
                 log.info("temp file upload");
                 Isfilter = FilterUtil.filterPicture(path + "/" + file.getOriginalFilename());
-                if (Isfilter)
-                    upload(app, u, file);
-                temp.delete();
+               // if (Isfilter)
+               //     upload(app, u, file);
+               // temp.delete();
                 newchat.setIsfilter(Isfilter);
                 //aaa
             } catch (IOException e) {

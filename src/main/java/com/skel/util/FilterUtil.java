@@ -47,17 +47,21 @@ public class FilterUtil {
         List<Slang> slangs = slangRepository.findAll();
         StringBuilder sb = new StringBuilder();
         for (Slang s : slangs) {
-            if (content.contains(s.getWord())) {
-                int size = content.indexOf(s.getWord());
-                sb.append(content.substring(0, size));
-                for (int i = 0; i < s.getWord().length(); i++)
+            while (content.contains(s.getWord())) {
+                //int size = content.indexOf(s.getWord());
+                //sb.append(content.substring(0, size));
+                for(int i=0; i<s.getWord().length();i++)
                     sb.append("*");
-                sb.append(content.substring(size + s.getWord().length(), content.length() - 1));
+                content=content.replace(s.getWord(),sb.toString());
+                sb.delete(0,sb.length());
+               // for (int i = 0; i < s.getWord().length(); i++)
+                //    sb.append("*");
+               // sb.append(content.substring(size + s.getWord().length(), content.length() - 1));
             }
         }
-        if (sb.toString().equals(""))
-            return content;
-        return sb.toString();
+       /* if (sb.toString().equals(""))
+            return content;*/
+        return content;
     }
 
     public static boolean filterPicture(String filename) {
