@@ -32,19 +32,19 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
-    @JsonBackReference(value="app-user")
+    @JsonIgnore
     App app;
 
     @OneToMany(mappedBy="user")
-    @JsonManagedReference(value="user-chat")
+    @JsonIgnore
     List<Chat> chats;
 
     @OneToMany(mappedBy="user")
-    @JsonManagedReference(value="user-pic")
+    @JsonIgnore
     List<Pic> pics;
 
     @OneToMany(mappedBy="user")
-    @JsonManagedReference(value="user-report")
+    @JsonIgnore
     List<Report> reports;
 
 

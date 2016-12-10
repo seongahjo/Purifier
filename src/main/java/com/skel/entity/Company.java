@@ -1,9 +1,6 @@
 package com.skel.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -42,7 +39,7 @@ public class Company {
     Integer countPicture=0;
 
     @OneToMany(mappedBy="company")
-    @JsonManagedReference(value="company-app")
+    @JsonIgnore
     List<App> apps;
 
 }

@@ -24,12 +24,12 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "useridx") // JOIN된 컬럼의 이름설정
-    @JsonBackReference(value="user-chat")
+    @JsonIgnore
     User user;
 
     @ManyToOne
     @JoinColumn(name = "appidx") // JOIN된 컬럼의 이름설정
-    @JsonBackReference(value="app-chat")
+    @JsonIgnore
     App app;
 
     public Chat(){

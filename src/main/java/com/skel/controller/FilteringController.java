@@ -56,7 +56,7 @@ public class FilteringController {
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public ResponseEntity test(@ModelAttribute("chat") Chat chat, @RequestParam(value = "pic", required = false) MultipartFile file) {
         App app = appRepository.findOne(chat.getApp().getAppIdx());
-        if (app == null) // app이 존재하지 않을경우 예외처리
+        if (app == null || !app.getIsregister()) // app이 존재하지 않을경우 예외처리
             return ResponseEntity.badRequest().body("App Not Exists");
         User u = userRepository.findById(chat.getUser().getId());
 

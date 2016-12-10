@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class PurifierApplication {
     @Bean
     FilterUtil filterUtil() {
+
         return new FilterUtil();
     }
 

@@ -1,10 +1,13 @@
 package com.skel.controller;
 
 import com.skel.entity.App;
+import com.skel.entity.Chat;
 import com.skel.entity.Company;
+import com.skel.entity.User;
 import com.skel.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +37,9 @@ public class MainController {
     @Autowired
     ReportRepository reportRepository;
 
+
+    @Autowired
+    UserRepository userRepository;
 
     // Login Page
     @RequestMapping("/")
@@ -65,12 +71,21 @@ public class MainController {
     }
 
     // Detail Page
-    @RequestMapping("/detail")
-    public ModelAndView detail(HttpSession session) {
+    @RequestMapping("/detail/{appIdx}")
+    public ModelAndView detail(@PathVariable("appIdx") Integer appIdx, HttpSession session) {
+        App app = appRepository.findOne(appIdx);
         Company company = (Company) session.getAttribute("user");
-        if (company == null)
+        if (app == null || company == null)
             return new ModelAndView("redirect:/");
+        List<Chat> chats = chatRepository.findByApp(app);
+        User slangUser = userRepository.findFirstByAppOrderByCountSlangAsc(app);
+        User pictureUser = userRepository.findFirstByAppOrderByCountPictureAsc(app);
+
         ModelAndView mv = new ModelAndView("main");
+        mv.addObject("slangUser", slangUser);
+        mv.addObject("pictureUser",pictureUser);
+        mv.addObject("app", app);
+        mv.addObject("logs", chats);
         mv.addObject("mode", "detail");
         mv.addObject("company", company);
         return mv;
@@ -140,7 +155,6 @@ public class MainController {
         mv.addObject("apps", appRepository.findByIsregister(true));
         return mv;
     }
-
 
 
 }

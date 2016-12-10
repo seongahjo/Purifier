@@ -1,9 +1,6 @@
 package com.skel.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,6 +25,6 @@ public class Report {
 
     @ManyToOne
     @JoinColumn(name = "useridx")  // JOIN된 컬럼의 이름설정
-    @JsonBackReference(value="user-report")
+    @JsonIgnore
     User user;
 }

@@ -56,8 +56,10 @@ public class FilterUtil {
     }
 
     public static boolean filterPicture(String filename) {
-        List<Pic> pics = picRepository.findAll();
-        return pics.stream().anyMatch(p -> filterPic(filename, p.getUrl()));
+       // System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        //List<Pic> pics = picRepository.findAll();
+        //return pics.stream().anyMatch(p -> filterPic(filename, p.getUrl()));
+        return true;
     }
 
 
