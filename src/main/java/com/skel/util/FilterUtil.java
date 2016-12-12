@@ -14,9 +14,13 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -63,17 +67,25 @@ public class FilterUtil {
         //List<Pic> pics = picRepository.findAll();
         //return pics.stream().anyMatch(p -> filterPic(filename, p.getUrl()));
         List<Badpic> badpics=badpicRepository.findAll();
-        return true;
+        return badpics.stream().anyMatch(p->filterPic(filename,p.getUrl()));
     }
 
 
     private static boolean filterPic(String filename1, String filename2) {
-        int ret;
+        /*int ret;
         ret = compareFeature(filename1, filename2);
         if (ret > 0)
             return true;
         else
-            return false;
+            return false;*/
+        RestTemplate rest = new RestTemplate();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("img1", filename1);
+        map.add("img2", filename2);
+        log.info(filename1 + " "+filename2);
+        Map<String,Boolean> result = rest.postForObject("http://localhost:9999", map, Map.class);
+        System.out.println(result.get("result"));
+        return result.get("result");
     }
 
     private static int compareFeature(String filename1, String filename2) {

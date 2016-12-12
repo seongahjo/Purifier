@@ -42,23 +42,27 @@
                 <input type="password" id="pw" class="form-control" placeholder="Password"> </input>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <div class="form-group has-feedback">
+                <input type="text" id="name" class="form-control" placeholder="Name"> </input>
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="text" id="type" class="form-control" placeholder="Type"> </input>
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> Remember Me </input>
-                        </label>
-                    </div>
-                </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat" onClick="login()">Sign In</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat" onClick="login()">Sign Up</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="signup" class="text-center">Register a new membership</a>
+        <a href="#">I forgot my password</a><br/>
+        <a href="" class="text-center">Register a new membership</a>
 
     </div>
     <!-- /.login-box-body -->
@@ -73,17 +77,21 @@
 <script src="/js/icheck.min.js"></script>
 <script>
     function login() {
-        console.log($("#id").val());
+        var data={'id': $("#id").val(),
+            'pw': $("#pw").val(),
+            'name' : $("#name").val(),
+            'type' : $("#type").val()
+        }
+        console.log(data);
+
         $.ajax({
-            url: 'login',
+            url: '/api/companies',
             method: 'POST',
-            type: 'json',
-            data: {'id': $("#id").val(), 'pw': $("#pw").val()}
+            contentType: "application/json",
+            data: JSON.stringify(data)
         }).done(function (data) {
-            console.log(data);
-            location.href = "main";
+            location.href = "/";
         }).fail(function (data) {
-            console.log(data)
             location.reload()
 
         })

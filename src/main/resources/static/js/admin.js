@@ -16,5 +16,27 @@ function updateapp(appidx,check) {
     })
 
 }
+function reportok(reportidx) {
+    $.ajax({
+        url: 'http://localhost:8080/report/' + reportidx,
+        method: 'GET'
+    }).done(function () {
+        location.reload()
+    }).fail(function(){
+        console.log('fail')
+    })
 
+}
+
+function reportclose(reportidx) {
+    $.ajax({
+        url: 'http://localhost:8080/report/' + reportidx+'/no',
+        method: 'GET'
+    }).done(function () {
+        location.reload()
+    }).fail(function(){
+        console.log('fail')
+    })
+
+}
 

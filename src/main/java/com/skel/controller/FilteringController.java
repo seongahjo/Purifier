@@ -1,10 +1,7 @@
 package com.skel.controller;
 
 import com.skel.entity.*;
-import com.skel.repository.AppRepository;
-import com.skel.repository.ChatRepository;
-import com.skel.repository.PicRepository;
-import com.skel.repository.UserRepository;
+import com.skel.repository.*;
 import com.skel.util.FilterUtil;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,19 @@ public class FilteringController {
     @Autowired
     PicRepository picRepository;
 
+
+    @Autowired
+    ReportRepository reportRepository;
+
+
+    @Autowired
+    SlangRepository slangRepository;
+
+    @Autowired
+    BadpicRepository badpicRepository;
+    @Autowired
+    CompanyRepository companyRepository;
+
     /*
         Filter
         REST API
@@ -57,10 +67,10 @@ public class FilteringController {
         App app = appRepository.findOne(chat.getApp().getAppIdx());
         if (app == null) // app이 존재하지 않을경우 예외처리
             return ResponseEntity.badRequest().body("App Not Exists");
-        User u = userRepository.findById(chat.getUser().getId());
         Company company = app.getCompany();
         Chat newchat = null;
-
+        String filename = null;
+        User u = userRepository.findById(chat.getUser().getId());
         if (u == null) { // user가 존재하지 않을경우 User를 추가해줌
             u = new User(chat.getUser().getId());
             u.setApp(app);
@@ -72,9 +82,7 @@ public class FilteringController {
         String newContent = null;
         newchat = new Chat(content, u, app);
 
-        userRepository.saveAndFlush(u);
-        chatRepository.saveAndFlush(newchat);
-        appRepository.saveAndFlush(app);
+
 
         log.info("Filtering start");
         // 사진 Filtering
@@ -88,47 +96,84 @@ public class FilteringController {
                     tempFolder.mkdirs();
                 app.setTotalcount(app.getTotalcount() + 1);
                 app.setFiltercount(app.getFiltercount() + 1);
-                File temp = new File(path + "/" + file.getOriginalFilename());
+                filename = path + "/" + file.getOriginalFilename();
+                File temp = new File(filename);
                 file.transferTo(temp);
                 // 임시 파일 업로드
                 log.info("temp file upload");
-                Isfilter = FilterUtil.filterPicture(path + "/" + file.getOriginalFilename());
+                Isfilter = FilterUtil.filterPicture(filename);
                 company.setCountPicture(company.getCountPicture() + 1);
-                // if (Isfilter)
-                //     upload(app, u, file);
-                // temp.delete();
+                log.info(Isfilter+ " ");
+                if (Isfilter) {
+                    upload(app, u, filename);
+                    u.setCountPicture(u.getCountPicture() + 1); // count회수 추가
+                    app.setFiltercount(app.getFiltercount()+1);
+                }
+                else
+                    temp.delete();
                 newchat.setIsfilter(Isfilter);
             } catch (IOException e) {
 
             }
         }
         newContent = FilterUtil.filterSlang(content);
+        company.setCountSlang(company.getCountSlang() + 1);
         if (!newContent.equals(content)) {
             app.setFiltercount(app.getFiltercount() + 1);
-            company.setCountSlang(company.getCountSlang() + 1);
             u.setCountSlang(u.getCountSlang() + 1); // count회수 추가
         }
         newchat.setContent(newContent);
         log.info("Filtering End");
+        userRepository.saveAndFlush(u);
+        chatRepository.saveAndFlush(newchat);
+        appRepository.saveAndFlush(app);
+        companyRepository.saveAndFlush(company);
         return ResponseEntity.ok(newchat);
     }
 
-    private Pic upload(App a, User u, MultipartFile file) {
-        String folderPath = FilterUtil.path + "/upload"; // 폴더 경로
-        String fileName = folderPath + "/" + file.getOriginalFilename();
-        log.info(fileName);
-        try {
-            File folder = new File(folderPath);
-            if (!folder.exists())
-                folder.mkdirs();
-            File transferFile = new File(fileName);
-            file.transferTo(transferFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    private Pic upload(App a, User u, String url) {
+        Pic pics = new Pic(url, u, a);
+        return picRepository.saveAndFlush(pics);
+    }
+
+    @RequestMapping(value = "/report", method = RequestMethod.POST)
+    public ResponseEntity report(@ModelAttribute Report report ){
+        log.info(report.getUser().getId());
+        User u = userRepository.findById(report.getUser().getId());
+        if (u == null) { // user가 존재하지 않을경우 User를 추가해줌
+            u = new User(report.getUser().getId());
+
         }
-        Pic pics = new Pic(fileName, u, a);
-        return picRepository.save(pics);
+        report.setUser(u);
+        userRepository.saveAndFlush(u);
+        reportRepository.saveAndFlush(report);
+        return ResponseEntity.ok("good");
     }
 
 
+
+    @RequestMapping(value = "/report/{reportIdx}", method = RequestMethod.GET)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
+    public ResponseEntity report(@PathVariable("reportIdx")Integer reportIdx ){
+        Report report = reportRepository.findOne(reportIdx);
+        if(report.getType()==0) {
+            Slang slang = new Slang(report.getContent());
+            slangRepository.saveAndFlush(slang);
+        }
+        else{
+            String content="/Users/hootting/Desktop/exp/public/"+report.getContent();
+            Badpic badpic=new Badpic(content);
+            badpicRepository.saveAndFlush(badpic);
+        }
+        reportRepository.delete(report);
+        return ResponseEntity.ok("good");
+    }
+
+    @RequestMapping(value = "/report/{reportIdx}/no", method = RequestMethod.GET)
+    public ResponseEntity reportno(@PathVariable("reportIdx")Integer reportIdx ){
+
+        reportRepository.delete(reportIdx);
+        return ResponseEntity.ok("good");
+    }
 }

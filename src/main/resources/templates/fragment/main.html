@@ -202,6 +202,9 @@
                     <td th:text="${report.content}"></td>
                     <td th:text="${report.type}"></td>
                     <td th:text="${report.user.id}"></td>
+                    <!-- th:onclick="|updateapp('${app.appIdx}','true')|" -->
+                    <td> <button class="btn btn-primary" th:onclick="|reportok('${report.reportIdx}')|">승인</button></td>
+                    <td> <button class="btn btn-danger" th:onclick="|reportclose('${report.reportIdx}')|">취소</button></td>
                 </tr>
             </div>
 
@@ -227,7 +230,7 @@
                 </tr>
                 </thead>
                 <tr th:each="badpic : ${badpics}">
-                    <td th:text="${badpic.picIdx}"></td>
+                    <td th:text="${badpic.badpicIdx}"></td>
                     <td th:text="${badpic.url}"></td>
                 </tr>
             </div>

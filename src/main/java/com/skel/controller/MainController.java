@@ -51,6 +51,12 @@ public class MainController {
         return mv;
     }
 
+    @RequestMapping("/signup")
+    public ModelAndView register() {
+        ModelAndView mv = new ModelAndView("signup");
+        return mv;
+    }
+
     // Admin Page
     @RequestMapping("/admin")
     public ModelAndView admin() {

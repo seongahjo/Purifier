@@ -21,8 +21,7 @@ public class PurifierApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		System.load("/usr/local/Cellar/opencv3/3.1.0_4/share/OpenCV/java/libopencv_java310.dylib");
-		System.out.println(FilterUtil.filterPicture("tmp/testtest.jpeg"));
+	//	System.load("/usr/local/Cellar/opencv3/3.1.0_4/share/OpenCV/java/libopencv_java310.dylib");
 	}
 
 }
