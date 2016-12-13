@@ -30,15 +30,20 @@
 
 
         <li class="treeview">
-            <a th:href="@{'/slangs'}">
-            <i class="fa fa-bullhorn"></i> <span>비속어 목록</span>
-            </a>
+
+            <a href="#"><i class="fa fa-bullhorn"></i> <span>비속어</span></a>
+            <ul class="treeview-menu">
+                <li><a th:href="@{'/slangs'}"><i class="fa fa-bullhorn"></i>비속어 목록</a></li>
+                <li><a th:href="@{'/addslang'}"><i class="fa fa-bullhorn"></i>비속어 추가</a></li>
+            </ul>
         </li>
 
         <li class="treeview">
-            <a th:href="@{'/pics'}">
-            <i class="fa fa-picture-o"></i> <span>부적절한 사진 목록</span>
-            </a>
+            <a href="#"><i class="fa fa-picture-o"></i> <span>부적절한 사진</span></a>
+            <ul class="treeview-menu">
+                <li><a th:href="@{'/pics'}"><i class="fa fa-picture-o"></i>부적절한 사진 목록</a></li>
+                <li><a th:href="@{'/addpic'}"><i class="fa fa-picture-o"></i>부적절한 사진 추가</a></li>
+            </ul>
         </li>
         <li class="treeview">
             <a th:href="@{'/logs'}">

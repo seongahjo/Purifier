@@ -65,8 +65,10 @@ public class FilteringController {
     // request header : x-www-form-urlencoded
     public ResponseEntity filter(@ModelAttribute("chat") Chat chat, @RequestParam(value = "pic", required = false) MultipartFile file) {
         App app = appRepository.findOne(chat.getApp().getAppIdx());
-        if (app == null) // app이 존재하지 않을경우 예외처리
+        if (app == null ) // app이 존재하지 않을경우 예외처리
             return ResponseEntity.badRequest().body("App Not Exists");
+        if (!app.getIsregister())
+            return ResponseEntity.badRequest().body("App Not Confirmed");
         Company company = app.getCompany();
         Chat newchat = null;
         String filename = null;
@@ -83,8 +85,18 @@ public class FilteringController {
         newchat = new Chat(content, u, app);
 
 
-
         log.info("Filtering start");
+
+        newContent = FilterUtil.filterSlang(content);
+        company.setCountSlang(company.getCountSlang() + 1);
+        if (!newContent.equals(content)) {
+            app.setFiltercount(app.getFiltercount() + 1);
+            u.setCountSlang(u.getCountSlang() + 1); // count회수 추가
+        }
+        newchat.setContent(newContent);
+
+
+
         // 사진 Filtering
         if (file != null) {
             log.info("Pic");
@@ -116,25 +128,18 @@ public class FilteringController {
 
             }
         }
-        newContent = FilterUtil.filterSlang(content);
-        company.setCountSlang(company.getCountSlang() + 1);
-        if (!newContent.equals(content)) {
-            app.setFiltercount(app.getFiltercount() + 1);
-            u.setCountSlang(u.getCountSlang() + 1); // count회수 추가
-        }
-        newchat.setContent(newContent);
         log.info("Filtering End");
+        companyRepository.saveAndFlush(company);
         userRepository.saveAndFlush(u);
         chatRepository.saveAndFlush(newchat);
         appRepository.saveAndFlush(app);
-        companyRepository.saveAndFlush(company);
         return ResponseEntity.ok(newchat);
     }
 
 
     private Pic upload(App a, User u, String url) {
         Pic pics = new Pic(url, u, a);
-        return picRepository.saveAndFlush(pics);
+        return picRepository.save(pics);
     }
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
@@ -176,4 +181,7 @@ public class FilteringController {
         reportRepository.delete(reportIdx);
         return ResponseEntity.ok("good");
     }
+
+
+
 }

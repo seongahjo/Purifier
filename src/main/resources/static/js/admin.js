@@ -40,3 +40,39 @@ function reportclose(reportidx) {
 
 }
 
+function slangdelete(slangidx){
+    $.ajax({
+        url: 'http://localhost:8080/api/slangs/' + slangidx,
+        method: 'DELETE'
+    }).done(function () {
+        location.reload()
+    }).fail(function(){
+        console.log('fail')
+    })
+}
+
+function picdelete(badpicidx){
+    $.ajax({
+        url: 'http://localhost:8080/api/badpics/' + badpicidx,
+        method: 'DELETE'
+    }).done(function () {
+        location.reload()
+    }).fail(function(){
+        console.log('fail')
+    })
+}
+
+
+function addslang(){
+    var data={
+        'word' : $("#word").val()
+    }
+    $.ajax({
+        url:'/api/slangs',
+        method:'POST',
+        contentType: "application/json",
+        data:JSON.stringify(data)
+    }).done(function(value){
+        location.reload();
+    })
+}

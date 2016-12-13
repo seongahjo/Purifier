@@ -30,8 +30,12 @@
                     <td th:if="${!(app.isregister or app.isrequestclose)}">
                         <span class="label label-primary">서비스 연결 대기중</span>
                     </td>
-                    <td th:if="${app.isrequestclose}">
+                    <td th:if="${app.isrequestclose and app.isregister}">
                         <span class="label label-danger">서비스 취소 대기중</span>
+                    </td>
+
+                    <td th:if="${app.isrequestclose and !app.isregister}">
+                        <span class="label label-danger">서비스 취소</span>
                     </td>
                     <td th:if="${app.isregister and !app.isrequestclose}">
                         <a th:href="@{|detail/${app.appIdx}|}" ><button class="btn btn-info">자세히 보기</button></a>
@@ -178,10 +182,13 @@
                     <td th:text="${app.name}"></td>
                     <td th:text="${app.type}"></td>
                     <td th:text="${app.createdat}"></td>
-                    <td th:if="${!app.isregister}">
+                    <td th:if="${!app.isregister and !app.isrequestclose}">
                         <button class="btn btn-primary" th:onclick="|updateapp('${app.appIdx}','true')|">서비스 연결</button>
                     </td>
-                    <td th:if="${app.isregister}">
+                    <td th:if="${!app.isregister and app.isrequestclose}">
+                        <span class="label label-danger">서비스 해지</span>
+                    </td>
+                    <td th:if="${app.isregister and app.isrequestclose}">
                         <button class="btn btn-danger" th:onclick="|updateapp('${app.appIdx}','false')|">서비스 연결해지</button>
                     </td>
                 </tr>
@@ -214,24 +221,30 @@
                     <th>#</th>
                     <th>word</th>
                     <th>count</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tr th:each="slang : ${slangs}">
                     <td th:text="${slang.slangIdx}"></td>
                     <td th:text="${slang.word}"></td>
                     <td th:text="${slang.count}"></td>
+                    <td><button class="btn btn-danger" th:onclick="|slangdelete('${slang.slangIdx}')|">삭제</button> </td>
                 </tr>
             </div>
+
+
             <div th:if="${badpics!=null}">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>url</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tr th:each="badpic : ${badpics}">
                     <td th:text="${badpic.badpicIdx}"></td>
                     <td th:text="${badpic.url}"></td>
+                    <td><button class="btn btn-danger" th:onclick="|picdelete('${badpic.badpicIdx}')|">삭제</button> </td>
                 </tr>
             </div>
 
@@ -249,6 +262,24 @@
                     <td th:text="${log.content}"></td>
                     <td th:text="${log.app.name}"></td>
                     <td th:text="${log.user.id}"></td>
+                </tr>
+            </div>
+
+
+            <div th:if="${pics!=null}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>url</th>
+                    <th>app</th>
+                    <th>user</th>
+                </tr>
+                </thead>
+                <tr th:each="pic : ${pics}">
+                    <td th:text="${pic.picIdx}"></td>
+                    <td th:text="${pic.url}"></td>
+                    <td th:text="${pic.app.name}"></td>
+                    <td th:text="${pic.user.id}"></td>
                 </tr>
             </div>
         </table>
@@ -337,6 +368,70 @@
 
 </div>
 
+
+
+<div th:fragment="addslang">
+    <div >
+        <div class="register-logo">
+            <a href=""><b>Add</b>slang</a>
+        </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Add a new slang</p>
+
+            <form  id="slangForm" action="" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" id="word" name="word" class="form-control" placeholder="Name"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary btn-block btn-flat"
+                                th:onclick="|addslang()|" >Add</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+
+</div>
+
+
+
+<div th:fragment="addpic">
+    <div >
+        <div class="register-logo">
+            <a href=""><b>Add</b>badpic</a>
+        </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Add a new badpic</p>
+
+            <form  id="picForm" action="/addpic" method="POST" enctype="multipart/form-data">
+                <div class="form-group has-feedback">
+                    <input type="file" id="pic" name="pic" class="form-control" placeholder="Name"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Add</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+
+</div>
 
 </body>
 </html>

@@ -31,6 +31,7 @@ public class FilterUtil {
 
 
     static SlangRepository slangRepository;
+
     static BadpicRepository badpicRepository;
     public static final String path = "/Users/hootting/test/Purifier";
 
@@ -44,15 +45,16 @@ public class FilterUtil {
         FilterUtil.badpicRepository = badpicRepository;
     }
 
-    public static String getRandomString() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
-    }
-
     public static String filterSlang(String content) {
+
+
         List<Slang> slangs = slangRepository.findAll();
+
         StringBuilder sb = new StringBuilder();
         for (Slang s : slangs) {
             while (content.contains(s.getWord())) {
+                s.setCount(s.getCount()+1);
+                slangRepository.saveAndFlush(s);
                 for(int i=0; i<s.getWord().length();i++)
                     sb.append("*");
                 content=content.replace(s.getWord(),sb.toString());
@@ -88,55 +90,4 @@ public class FilterUtil {
         return result.get("result");
     }
 
-    private static int compareFeature(String filename1, String filename2) {
-        int retVal = 0;
-        Mat imgO1 = Imgcodecs.imread(filename1, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-        Mat imgO2 = Imgcodecs.imread(filename2, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-
-        Imgproc.cvtColor(imgO1, imgO1, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.cvtColor(imgO2, imgO2, Imgproc.COLOR_BGR2GRAY);
-
-        Mat img1 = new Mat();
-        Mat img2 = new Mat();
-
-        Imgproc.equalizeHist(imgO1, img1);
-        Imgproc.equalizeHist(imgO2, img2);
-
-        //Imgproc.cvtColor(img1, img1, Imgproc.COLOR_GRAY2BGR);
-        //Imgproc.cvtColor(img2, img2, Imgproc.COLOR_GRAY2BGR);
-
-        MatOfKeyPoint keypoints1 = new MatOfKeyPoint();
-        MatOfKeyPoint keypoints2 = new MatOfKeyPoint();
-
-        Mat descriptors1 = new Mat();
-        Mat descriptors2 = new Mat();
-
-        FeatureDetector detector = FeatureDetector.create(FeatureDetector.ORB);
-        DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.ORB);
-
-        detector.detect(img1, keypoints1);
-        detector.detect(img2, keypoints2);
-
-        extractor.compute(img1, keypoints1, descriptors1);
-        extractor.compute(img2, keypoints2, descriptors2);
-
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
-
-        MatOfDMatch matches = new MatOfDMatch();
-
-        if (descriptors2.cols() == descriptors1.cols()) {
-            matcher.match(descriptors1, descriptors2, matches);
-
-            DMatch[] match = matches.toArray();
-            double max_dist = 0;
-            double min_dist = 100;
-
-            for (int i = 0; i < descriptors1.rows(); i++) {
-                if (match[i].distance <= 10) {
-                    retVal++;
-                }
-            }
-        }
-        return retVal;
-    }
 }
