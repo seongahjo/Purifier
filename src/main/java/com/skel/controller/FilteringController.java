@@ -73,9 +73,16 @@ public class FilteringController {
         Chat newchat = null;
         String filename = null;
         User u = userRepository.findById(chat.getUser().getId());
+
         if (u == null) { // user가 존재하지 않을경우 User를 추가해줌
             u = new User(chat.getUser().getId());
             u.setApp(app);
+        }
+        else if(u!=null){
+            if(u.getApp().getAppIdx()!=app.getAppIdx()) {
+                u.setUserIdx(null);
+                u.setApp(app);
+            }
         }
         app.setTotalcount(app.getTotalcount() + 1);
 
@@ -107,7 +114,6 @@ public class FilteringController {
                 if (!tempFolder.exists())
                     tempFolder.mkdirs();
                 app.setTotalcount(app.getTotalcount() + 1);
-                app.setFiltercount(app.getFiltercount() + 1);
                 filename = path + "/" + file.getOriginalFilename();
                 File temp = new File(filename);
                 file.transferTo(temp);

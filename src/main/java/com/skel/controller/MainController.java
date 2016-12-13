@@ -96,7 +96,6 @@ public class MainController {
         List<Chat> chats = chatRepository.findByApp(app);
         User slangUser = userRepository.findFirstByAppOrderByCountSlangDesc(app);
         User pictureUser = userRepository.findFirstByAppOrderByCountPictureDesc(app);
-        log.info(pictureUser.getId()+" good");
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("slangUser", slangUser);
         mv.addObject("pictureUser",pictureUser);
